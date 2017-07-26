@@ -44,12 +44,11 @@ body {
 }
 
 .message {
-  display: flex;
   padding: 5px;
 }
 
 .message.system {
-  font-style: italic;
+  // font-style: italic;
   padding: 5px 20px;
 }
 
@@ -62,6 +61,7 @@ body {
 
 .message-content {
   flex: 8;
+
 }
 
 .message-username {
