@@ -10,9 +10,12 @@ class App extends Component {
     this.state = {
       loading: true,
       // userdata: {
-      currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: 'Anonymous', // optional. if currentUser is not defined, it means the user is Anonymous
       messages: []
     };
+
+    // this.handleUsername = this.handleUsername.bind(this);
+
   }
 
   componentDidMount() {
@@ -21,8 +24,6 @@ class App extends Component {
 
      this.socket.onopen = function (event) {
       console.log("Connected to server");
-      // let conMessage = JSON.stringify(newMessage);
-      // this.socket.send(conMessage);
       };
 
       this.socket.onmessage = (event) => {
@@ -34,19 +35,25 @@ class App extends Component {
       };
   }
 
-  addMessage(content) {
 
+  //gets user invoked in addMessage method
+  getUsername(username) {
+    this.setState({
+      currentUser: username
+    });
+  }
+
+  //gets message from chatbar and sends to server
+  addMessage(content) {
     const newMessage = {
-      // id: Math.random(),
-      username: 'Bob',
+      username: this.state.currentUser,
       content: content
     };
-
-
-    let conMessage = JSON.stringify(newMessage);
-    this.socket.send(conMessage);
-
+    let currMessage = JSON.stringify(newMessage);
+    this.socket.send(currMessage);
   }
+
+
 
 
   render() {
@@ -60,7 +67,7 @@ class App extends Component {
             <a href="/" className="navbar-brand">Chatty</a>
           </nav>
           <MessageList messages={this.state.messages}/>
-          <ChatBar name={this.state.currentUser.name} addMessage={this.addMessage.bind(this)}/>
+          <ChatBar getUsername={this.getUsername.bind(this)} addMessage={this.addMessage.bind(this)}/>
         </div>
         );
       } else {

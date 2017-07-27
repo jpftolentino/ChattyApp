@@ -20,9 +20,6 @@ const wss = new SocketServer({ server });
 // Broadcast to all.
 wss.broadcast = function broadcast(data) {
   wss.clients.forEach((client) => {
-    // if (client.readyState === SocketServer.OPEN) {
-    //   client.send(data);
-    // }
     client.send(data);
   });
 };
@@ -35,7 +32,6 @@ wss.on('connection', (ws) => {
 
   ws.on('message', function incoming(message) {
     let id = uuidv4();
-
     newMessage = JSON.parse(message);
     newMessage['id'] = id;
     newMessage = JSON.stringify(newMessage);
