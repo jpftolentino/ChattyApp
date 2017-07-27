@@ -11,6 +11,7 @@ class ChatBar extends Component {
           if(event.key === 'Enter'){
             this.props.addMessage(event.target.value);
             event.target.value = '';
+
           }
       }}/>
       </footer>
