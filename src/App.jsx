@@ -10,6 +10,7 @@ class App extends Component {
     this.state = {
       loading: true,
       // userdata: {
+      type: '',
       currentUser: 'Anonymous', // optional. if currentUser is not defined, it means the user is Anonymous
       messages: []
     };
@@ -27,25 +28,45 @@ class App extends Component {
       };
 
       this.socket.onmessage = (event) => {
-        let messages = this.state.messages.concat(JSON.parse(event.data));
-        console.log(messages);
-        this.setState({
-          messages: messages
-        });
+
+        let eventObj = JSON.parse(event.data);
+
+        switch(eventObj.type) {
+          case "incomingMessage":
+            let messages = this.state.messages.concat(eventObj);
+            this.setState({
+              type: eventObj.type,
+              messages: messages
+            });
+            break;
+          case "incomingNotification":
+            //handle incoming notification
+            break;
+          default:
+            //show an error in the console if the message type is unknown
+            throw new Error("Unknown event type" + data.type);
+        }
+
       };
   }
 
 
   //gets user invoked in addMessage method
-  getUsername(username) {
+  changeUser(username) {
+    console.log(username);
+    //set username
     this.setState({
+      type: "",
       currentUser: username
     });
   }
 
   //gets message from chatbar and sends to server
   addMessage(content) {
+
+
     const newMessage = {
+      type: "postMessage",
       username: this.state.currentUser,
       content: content
     };
@@ -67,7 +88,7 @@ class App extends Component {
             <a href="/" className="navbar-brand">Chatty</a>
           </nav>
           <MessageList messages={this.state.messages}/>
-          <ChatBar getUsername={this.getUsername.bind(this)} addMessage={this.addMessage.bind(this)}/>
+          <ChatBar changeUser={this.changeUser.bind(this)} addMessage={this.addMessage.bind(this)}/>
         </div>
         );
       } else {

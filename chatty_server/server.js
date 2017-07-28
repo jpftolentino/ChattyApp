@@ -34,11 +34,16 @@ wss.on('connection', (ws) => {
     let id = uuidv4();
     newMessage = JSON.parse(message);
     newMessage['id'] = id;
-    newMessage = JSON.stringify(newMessage);
+    console.log(newMessage.type);
 
-    console.log('received: %s', newMessage);
-    wss.broadcast(newMessage);
-    console.log('sent: %s', newMessage);
+    if(newMessage.type === "postMessage"){
+
+      newMessage.type = "incomingMessage";
+      newMessage = JSON.stringify(newMessage);
+      wss.broadcast(newMessage);
+
+      console.log('sent: %s', newMessage);
+    }
 
   });
 
