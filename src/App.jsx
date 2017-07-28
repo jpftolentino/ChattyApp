@@ -10,7 +10,7 @@ class App extends Component {
     this.state = {
       loading: true,
       // userdata: {
-      type: '',
+      previousUser: '',
       currentUser: 'Anonymous', // optional. if currentUser is not defined, it means the user is Anonymous
       messages: []
     };
@@ -35,12 +35,21 @@ class App extends Component {
           case "incomingMessage":
             let messages = this.state.messages.concat(eventObj);
             this.setState({
-              type: eventObj.type,
               messages: messages
             });
             break;
           case "incomingNotification":
             //handle incoming notification
+            console.log(eventObj);
+            messages = this.state.messages.concat(eventObj);
+            let previousUser = eventObj.previousUser;
+            let currentUser = eventObj.currentUser;
+            console.log(messages);
+            this.setState({
+              previousUser: previousUser,
+              currentUser: currentUser,
+              messages: messages
+            });
             break;
           default:
             //show an error in the console if the message type is unknown
@@ -53,12 +62,18 @@ class App extends Component {
 
   //gets user invoked in addMessage method
   changeUser(username) {
+    console.log(this.state.currentUser);
     console.log(username);
-    //set username
-    this.setState({
-      type: "",
-      currentUser: username
-    });
+    let content = (this.state.currentUser + " changed their name to " + username);
+    const newUser = {
+      type: "postNotification",
+      previousUser: this.state.currentUser,
+      currentUser: username,
+      content: content
+    }
+
+    let currUser = JSON.stringify(newUser);
+    this.socket.send(currUser);
   }
 
   //gets message from chatbar and sends to server
