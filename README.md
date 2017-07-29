@@ -1,6 +1,6 @@
 This is a simple web application that demonstrates React framework and websockets!
 
-!["screenshot description"]
+!["screenshot description"](https://github.com/jpftolentino/ChattyApp/blob/master/docs/ChattyApp.png?raw=true)
 
 Install the dependencies
 
