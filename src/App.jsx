@@ -40,7 +40,6 @@ class App extends Component {
               messages: messages,
               numUsers: numUsers
             });
-            console.log(this.state.numUsers);
             break;
           case "incomingNotification":
             //handle incoming notification
