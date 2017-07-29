@@ -40,6 +40,7 @@ wss.on('connection', (ws) => {
 
     if(newMessage.type === "postMessage"){
       newMessage['id'] = id;
+      newMessage['numUsers'] = numUsers;
       newMessage.type = "incomingMessage";
       newMessage = JSON.stringify(newMessage);
       wss.broadcast(newMessage);
@@ -48,6 +49,7 @@ wss.on('connection', (ws) => {
     } else if (newMessage.type === "postNotification"){
 
       newMessage.type = "incomingNotification";
+      newMessage['numUsers'] = numUsers;
       newMessage = JSON.stringify(newMessage);
       wss.broadcast(newMessage);
 

@@ -10,14 +10,11 @@ class App extends Component {
     this.state = {
       loading: true,
       // userdata: {
-      numUsers: 0,
+      numUsers: 1,
       previousUser: '',
       currentUser: 'Anonymous', // optional. if currentUser is not defined, it means the user is Anonymous
       messages: []
     };
-
-    // this.handleUsername = this.handleUsername.bind(this);
-
   }
 
   componentDidMount() {
@@ -38,19 +35,24 @@ class App extends Component {
         switch(eventObj.type) {
           case "incomingMessage":
             let messages = this.state.messages.concat(eventObj);
+            let numUsers = eventObj.numUsers;
             this.setState({
-              messages: messages
+              messages: messages,
+              numUsers: numUsers
             });
+            console.log(this.state.numUsers);
             break;
           case "incomingNotification":
             //handle incoming notification
             messages = this.state.messages.concat(eventObj);
             let previousUser = eventObj.previousUser;
             let currentUser = eventObj.currentUser;
+            numUsers = eventObj.numUsers;
             this.setState({
               previousUser: previousUser,
               currentUser: currentUser,
-              messages: messages
+              messages: messages,
+              numUsers: numUsers
             });
             break;
           default:
