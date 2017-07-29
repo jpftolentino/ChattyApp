@@ -24,16 +24,19 @@ wss.broadcast = function broadcast(data) {
   });
 };
 
-// Set up a callback that will run when a client connects to the server
-// When a client connects they are assigned a socket, represented by
-// the ws parameter in the callback.
+
 wss.on('connection', (ws) => {
-  console.log('Client connected');
+
+  let numUsers = wss.clients.size;
+  let usersOnConn = { numUsers: numUsers };
+  wss.broadcast(JSON.stringify(usersOnConn));
+
 
   ws.on('message', function incoming(message) {
+
+
     let id = uuidv4();
     newMessage = JSON.parse(message);
-    console.log(newMessage.type);
 
     if(newMessage.type === "postMessage"){
       newMessage['id'] = id;
@@ -57,10 +60,13 @@ wss.on('connection', (ws) => {
 
   ws.send("it's working");
 
-  // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => {
+    console.log('Client disconnected')
+    numUsers--;
+    let usersOnDisc = { numUsers: numUsers};
+    wss.broadcast(JSON.stringify(usersOnDisc));
+
+  });
 });
-
-
 
 

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 
 class Message extends Component {
   render() {
-    console.log("Render <Message/>");
     const listmessage = this.props.messages.map((message) =>
     <div key={message.id}>
       <span className="message-username">{message.username}</span>
