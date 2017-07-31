@@ -9,7 +9,6 @@ class App extends Component {
     super(props);
     this.state = {
       loading: true,
-      previousUser: '',
       currentUser: 'Anonymous', // optional. if currentUser is not defined, it means the user is Anonymous
       messages: []
     };
@@ -38,12 +37,8 @@ class App extends Component {
             //handle incoming notification
             console.log(eventObj);
             messages = this.state.messages.concat(eventObj);
-            // let previousUser = eventObj.previousUser;
-            // let currentUser = eventObj.currentUser;
             console.log(messages);
             this.setState({
-              // previousUser: previousUser,
-              // currentUser: currentUser,
               messages: messages
             });
             break;
@@ -67,11 +62,9 @@ class App extends Component {
       currentUser: username,
       content: content
     }
-
     this.setState({
       currentUser: username
     })
-
     let currUser = JSON.stringify(newUser);
     this.socket.send(currUser);
   }
