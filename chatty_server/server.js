@@ -24,16 +24,13 @@ wss.broadcast = function broadcast(data) {
   });
 };
 
-
 wss.on('connection', (ws) => {
 
   let numUsers = wss.clients.size;
   let usersOnConn = { numUsers: numUsers };
   wss.broadcast(JSON.stringify(usersOnConn));
 
-
   ws.on('message', function incoming(message) {
-
 
     let id = uuidv4();
     newMessage = JSON.parse(message);
@@ -59,7 +56,6 @@ wss.on('connection', (ws) => {
 
   });
 
-
   ws.send("it's working");
 
   ws.on('close', () => {
@@ -67,7 +63,6 @@ wss.on('connection', (ws) => {
     numUsers--;
     let usersOnDisc = { numUsers: numUsers};
     wss.broadcast(JSON.stringify(usersOnDisc));
-
   });
 });
 

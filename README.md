@@ -7,12 +7,15 @@ Install the dependencies
 ```
 npm install
 ```
-Start the server
+Set up Websocket Server
+
+from the main folder
 
 ```
 cd chatty_app
 npm start
 ```
+
 Start and open the application
 
 ```

@@ -4,7 +4,6 @@ import ChatBar from './ChatBar.jsx';
 
 class App extends Component {
 
-
   constructor(props) {
     super(props);
     this.state = {
@@ -18,38 +17,37 @@ class App extends Component {
     console.log("componentDidMount <App />");
     this.socket = new WebSocket("ws://localhost:3001", "protocolOne");
 
-     this.socket.onopen = function (event) {
+    this.socket.onopen = function (event) {
       console.log("Connected to server");
-      };
+    };
 
-      this.socket.onmessage = (event) => {
+    this.socket.onmessage = (event) => {
 
-        let eventObj = JSON.parse(event.data);
+      let eventObj = JSON.parse(event.data);
 
-        switch(eventObj.type) {
-          case "incomingMessage":
-            let messages = this.state.messages.concat(eventObj);
-            this.setState({
-              messages: messages
-            });
-            break;
-          case "incomingNotification":
-            //handle incoming notification
-            console.log(eventObj);
-            messages = this.state.messages.concat(eventObj);
-            console.log(messages);
-            this.setState({
-              messages: messages
-            });
-            break;
-          default:
-            //show an error in the console if the message type is unknown
-            throw new Error("Unknown event type" + data.type);
-        }
+      switch(eventObj.type) {
+        case "incomingMessage":
+          let messages = this.state.messages.concat(eventObj);
+          this.setState({
+            messages: messages
+          });
+          break;
+        case "incomingNotification":
+          //handle incoming notification
+          console.log(eventObj);
+          messages = this.state.messages.concat(eventObj);
+          console.log(messages);
+          this.setState({
+            messages: messages
+          });
+          break;
+        default:
+          //show an error in the console if the message type is unknown
+          throw new Error("Unknown event type" + data.type);
+      }
 
-      };
+    };
   }
-
 
   //gets user invoked in addMessage method
   changeUser(username) {
@@ -80,10 +78,7 @@ class App extends Component {
     this.socket.send(currMessage);
   }
 
-
-
-
-  render() {
+ render() {
 
     console.log("Rendering <App />");
 
